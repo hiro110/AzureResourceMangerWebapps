@@ -1,0 +1,451 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_arm_template_name": {
+            "defaultValue": "arm-template",
+            "type": "String"
+        },
+        "alertrules_内部エラー_name": {
+            "defaultValue": "内部エラー",
+            "type": "String"
+        },
+        "alertrules_平均応答時間_name": {
+            "defaultValue": "平均応答時間",
+            "type": "String"
+        },
+        "alertrules_平均メモリ使用量_name": {
+            "defaultValue": "平均メモリ使用量",
+            "type": "String"
+        },
+        "serverfarms_arm_template_name": {
+            "defaultValue": "arm-template",
+            "type": "String"
+        },
+        "components_arm_template_name": {
+            "defaultValue": "arm-template",
+            "type": "String"
+        },
+        "alertrules_404_Not_Found_name": {
+            "defaultValue": "404 Not Found",
+            "type": "String"
+        },
+        "config_web_name": {
+            "defaultValue": "web",
+            "type": "String"
+        },
+        "alertrules_401_Unauthorized_name": {
+            "defaultValue": "401 Unauthorized",
+            "type": "String"
+        },
+        "hostNameBindings_arm_template.azurewebsites.net_name": {
+            "defaultValue": "arm-template.azurewebsites.net",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Alert Rules 401 Unauthorized",
+            "type": "microsoft.insights/alertrules",
+            "name": "[parameters('alertrules_401_Unauthorized_name')]",
+            "apiVersion": "2014-04-01",
+            "location": "japaneast",
+            "tags": {
+                "hidden-link:/subscriptions/ea567c7f-4fe5-433f-ba73-4661ac4191c4/resourceGroups/arm-template/providers/Microsoft.Web/sites/arm-template": "Resource"
+            },
+            "scale": null,
+            "properties": {
+                "name": "[parameters('alertrules_401_Unauthorized_name')]",
+                "description": "",
+                "isEnabled": true,
+                "condition": {
+                    "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
+                    "dataSource": {
+                        "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
+                        "resourceUri": "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]",
+                        "metricNamespace": null,
+                        "metricName": "Http401"
+                    },
+                    "operator": "GreaterThan",
+                    "threshold": 3,
+                    "windowSize": "PT15M"
+                },
+                "action": {
+                    "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
+                    "sendToServiceOwners": false,
+                    "customEmails": [
+                        "pd-its-infra@hakuhodo.co.jp"
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]"
+            ]
+        },
+        {
+            "comments": "Alert Rules 404 Not Found",
+            "type": "microsoft.insights/alertrules",
+            "name": "[parameters('alertrules_404_Not_Found_name')]",
+            "apiVersion": "2014-04-01",
+            "location": "japaneast",
+            "tags": {
+                "hidden-link:/subscriptions/ea567c7f-4fe5-433f-ba73-4661ac4191c4/resourceGroups/arm-template/providers/Microsoft.Web/sites/arm-template": "Resource"
+            },
+            "scale": null,
+            "properties": {
+                "name": "[parameters('alertrules_404_Not_Found_name')]",
+                "description": "",
+                "isEnabled": true,
+                "condition": {
+                    "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
+                    "dataSource": {
+                        "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
+                        "resourceUri": "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]",
+                        "metricNamespace": null,
+                        "metricName": "Http404"
+                    },
+                    "operator": "GreaterThan",
+                    "threshold": 3,
+                    "windowSize": "PT15M"
+                },
+                "action": {
+                    "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
+                    "sendToServiceOwners": false,
+                    "customEmails": [
+                        "pd-its-infra@hakuhodo.co.jp"
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]"
+            ]
+        },
+        {
+            "comments": "Alert Rules 内部エラー(5xx, 6xx)",
+            "type": "microsoft.insights/alertrules",
+            "name": "[parameters('alertrules_内部エラー_name')]",
+            "apiVersion": "2014-04-01",
+            "location": "japaneast",
+            "tags": {
+                "hidden-link:/subscriptions/ea567c7f-4fe5-433f-ba73-4661ac4191c4/resourceGroups/arm-template/providers/Microsoft.Web/sites/arm-template": "Resource"
+            },
+            "scale": null,
+            "properties": {
+                "name": "[parameters('alertrules_内部エラー_name')]",
+                "description": "",
+                "isEnabled": true,
+                "condition": {
+                    "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
+                    "dataSource": {
+                        "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
+                        "resourceUri": "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]",
+                        "metricNamespace": null,
+                        "metricName": "Http5xx"
+                    },
+                    "operator": "GreaterThan",
+                    "threshold": 1,
+                    "windowSize": "PT15M"
+                },
+                "action": {
+                    "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
+                    "sendToServiceOwners": false,
+                    "customEmails": [
+                        "pd-its-infra@hakuhodo.co.jp"
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]"
+            ]
+        },
+        {
+            "comments": "Alert Rules 平均メモリ使用量",
+            "type": "microsoft.insights/alertrules",
+            "name": "[parameters('alertrules_平均メモリ使用量_name')]",
+            "apiVersion": "2014-04-01",
+            "location": "japaneast",
+            "tags": {
+                "hidden-link:/subscriptions/ea567c7f-4fe5-433f-ba73-4661ac4191c4/resourceGroups/arm-template/providers/Microsoft.Web/sites/arm-template": "Resource"
+            },
+            "scale": null,
+            "properties": {
+                "name": "[parameters('alertrules_平均メモリ使用量_name')]",
+                "description": "",
+                "isEnabled": true,
+                "condition": {
+                    "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
+                    "dataSource": {
+                        "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
+                        "resourceUri": "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]",
+                        "metricNamespace": null,
+                        "metricName": "AverageMemoryWorkingSet"
+                    },
+                    "operator": "GreaterThan",
+                    "threshold": 1288490188,
+                    "windowSize": "PT15M"
+                },
+                "action": {
+                    "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
+                    "sendToServiceOwners": false,
+                    "customEmails": [
+                        "pd-its-infra@hakuhodo.co.jp"
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]"
+            ]
+        },
+        {
+            "comments": "Alert Rules 平均応答時間",
+            "type": "microsoft.insights/alertrules",
+            "name": "[parameters('alertrules_平均応答時間_name')]",
+            "apiVersion": "2014-04-01",
+            "location": "japaneast",
+            "tags": {
+                "hidden-link:/subscriptions/ea567c7f-4fe5-433f-ba73-4661ac4191c4/resourceGroups/arm-template/providers/Microsoft.Web/sites/arm-template": "Resource"
+            },
+            "scale": null,
+            "properties": {
+                "name": "[parameters('alertrules_平均応答時間_name')]",
+                "description": "",
+                "isEnabled": true,
+                "condition": {
+                    "odata.type": "Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition",
+                    "dataSource": {
+                        "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource",
+                        "resourceUri": "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]",
+                        "metricNamespace": null,
+                        "metricName": "AverageResponseTime"
+                    },
+                    "operator": "GreaterThan",
+                    "threshold": 4,
+                    "windowSize": "PT15M"
+                },
+                "action": {
+                    "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
+                    "sendToServiceOwners": false,
+                    "customEmails": [
+                        "pd-its-infra@hakuhodo.co.jp"
+                    ]
+                }
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]"
+            ]
+        },
+        {
+            "comments": "リソース '/subscriptions/ea567c7f-4fe5-433f-ba73-4661ac4191c4/resourceGroups/arm-template/providers/microsoft.insights/components/arm-template' から一般化されました。",
+            "type": "microsoft.insights/components",
+            "kind": "web",
+            "name": "[parameters('components_arm_template_name')]",
+            "apiVersion": "2014-04-01",
+            "location": "southeastasia",
+            "tags": {
+                "hidden-link:/subscriptions/ea567c7f-4fe5-433f-ba73-4661ac4191c4/resourceGroups/arm-template/providers/Microsoft.Web/sites/arm-template": "Resource"
+            },
+            "scale": null,
+            "properties": {
+                "ApplicationId": "[parameters('components_arm_template_name')]"
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "App Service Plan Infomation",
+            "type": "Microsoft.Web/serverfarms",
+            "sku": {
+                "name": "S1",
+                "tier": "Standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 1
+            },
+            "kind": "app",
+            "name": "[parameters('serverfarms_arm_template_name')]",
+            "apiVersion": "2016-09-01",
+            "location": "Japan East",
+            "scale": null,
+            "properties": {
+                "name": "[parameters('serverfarms_arm_template_name')]",
+                "workerTierName": null,
+                "adminSiteName": null,
+                "hostingEnvironmentProfile": null,
+                "perSiteScaling": false,
+                "reserved": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "App Service Infomation",
+            "type": "Microsoft.Web/sites",
+            "kind": "app",
+            "name": "[parameters('sites_arm_template_name')]",
+            "apiVersion": "2016-08-01",
+            "location": "Japan East",
+            "scale": null,
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('sites_arm_template_name'),'.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "[concat(parameters('sites_arm_template_name'),'.scm.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "virtualIP": null,
+                        "thumbprint": null,
+                        "toUpdate": null,
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_arm_template_name'))]",
+                "reserved": false,
+                "siteConfig": null,
+                "scmSiteAlsoStopped": false,
+                "hostingEnvironmentProfile": null,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "cloningInfo": null
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_arm_template_name'))]"
+            ]
+        },
+        {
+            "comments": "Application Configuration",
+            "type": "Microsoft.Web/sites/config",
+            "name": "[concat(parameters('sites_arm_template_name'), '/', parameters('config_web_name'))]",
+            "apiVersion": "2016-08-01",
+            "location": "Japan East",
+            "scale": null,
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "pythonVersion": "",
+                "nodeVersion": "",
+                "linuxFxVersion": "",
+                "requestTracingEnabled": true,
+                "requestTracingExpirationTime": "9999-12-31T23:59:00Z",
+                "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": "VS2012",
+                "httpLoggingEnabled": true,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": true,
+                "publishingUsername": "$arm-template",
+                "publishingPassword": null,
+                "appSettings": null,
+                "metadata": null,
+                "connectionStrings": null,
+                "machineKey": null,
+                "handlerMappings": null,
+                "documentRoot": null,
+                "scmType": "None",
+                "use32BitWorkerProcess": false,
+                "webSocketsEnabled": false,
+                "alwaysOn": true,
+                "javaVersion": null,
+                "javaContainer": null,
+                "javaContainerVersion": null,
+                "appCommandLine": "",
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": true,
+                        "virtualDirectories": null
+                    }
+                ],
+                "winAuthAdminState": 0,
+                "winAuthTenantState": 0,
+                "customAppPoolIdentityAdminState": false,
+                "customAppPoolIdentityTenantState": false,
+                "runtimeADUser": null,
+                "runtimeADUserPassword": null,
+                "loadBalancing": "LeastRequests",
+                "routingRules": [],
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "limits": null,
+                "autoHealEnabled": false,
+                "autoHealRules": null,
+                "tracingOptions": null,
+                "vnetName": "",
+                "siteAuthEnabled": false,
+                "siteAuthSettings": {
+                    "enabled": null,
+                    "unauthenticatedClientAction": null,
+                    "tokenStoreEnabled": null,
+                    "allowedExternalRedirectUrls": null,
+                    "defaultProvider": null,
+                    "clientId": null,
+                    "clientSecret": null,
+                    "issuer": null,
+                    "allowedAudiences": null,
+                    "additionalLoginParams": null,
+                    "isAadAutoProvisioned": false,
+                    "googleClientId": null,
+                    "googleClientSecret": null,
+                    "googleOAuthScopes": null,
+                    "facebookAppId": null,
+                    "facebookAppSecret": null,
+                    "facebookOAuthScopes": null,
+                    "twitterConsumerKey": null,
+                    "twitterConsumerSecret": null,
+                    "microsoftAccountClientId": null,
+                    "microsoftAccountClientSecret": null,
+                    "microsoftAccountOAuthScopes": null
+                },
+                "cors": null,
+                "push": null,
+                "apiDefinition": null,
+                "autoSwapSlotName": null,
+                "localMySqlEnabled": true,
+                "ipSecurityRestrictions": null
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]"
+            ]
+        },
+        {
+            "comments": "Hostname Infomation",
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "name": "[concat(parameters('sites_arm_template_name'), '/', parameters('hostNameBindings_arm_template.azurewebsites.net_name'))]",
+            "apiVersion": "2016-08-01",
+            "location": "Japan East",
+            "scale": null,
+            "properties": {
+                "siteName": "arm-template",
+                "domainId": null,
+                "hostNameType": "Verified"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_arm_template_name'))]"
+            ]
+        }
+    ]
+}

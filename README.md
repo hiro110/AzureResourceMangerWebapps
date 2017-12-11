@@ -2,7 +2,7 @@
 
 # What's this?
 
-WebApps(on Windows)のデプロイ様テンプレート
+WebApps(on Windows)のデプロイ用テンプレート
 
 * サービスプランはStandardサービスプラン
 * インスタンスタイプは S1(1GB CPU, 1.75GB MEM, 50GB Storage)
@@ -36,8 +36,7 @@ az account set --subscription "<SubscrioptionName>"
 az resource list --output table
 ```
 
-
-* コマンド叩く
+* コマンド叩く  
 Azure CLI
 
 ```
