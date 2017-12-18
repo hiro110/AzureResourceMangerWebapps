@@ -5,6 +5,18 @@
         "sites_arm_template_name": {
             "value": "hproducts-clitest"
         },
+        "hostNameBindings_arm_template.azurewebsites.net_name": {
+            "value": "hproducts-clitest.azurewebsites.net_name"
+        },
+        "deployLocation":{
+            "value": "japaneast"
+        },
+        "skuName": {
+            "value": "S1"
+         },
+        "skuCapacity": {
+            "value": 1
+        },
         "alertrules_内部エラー_name": {
             "value": "内部エラー"
         },
@@ -28,9 +40,6 @@
         },
         "alertrules_401_Unauthorized_name": {
             "value": "401 Unauthorized"
-        },
-        "hostNameBindings_arm_template.azurewebsites.net_name": {
-            "value": "hproducts-clitest.azurewebsites.net_name"
         }
     }
 }

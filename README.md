@@ -1,7 +1,6 @@
 
 
 # What's this?
-
 WebApps(on Windows)のデプロイ用テンプレート
 
 * サービスプランはStandardサービスプラン
@@ -18,31 +17,72 @@ WebApps(on Windows)のデプロイ用テンプレート
 * Parameters.jsonを適宜更新
 * 事前にサブスクリプションを設定すること
 
-```
+* デプロイ手順（Azure CLI）
+
+```:Bash
 # Azure ログイン
-az login
+$ az login
 
 To sign in, use a web browser to open the page https://aka.ms/devicelogin and enter the code xxxxx to authenticate.
 
 https://aka.ms/devicelogin へアクセスし、xxxxxを入力し、認証する。
 
 # Azure サブスクリプション　確認
-az account list --output table
+$ az account list --output table
 
 #  Azure サブスクリプション アクティベート（切替）
-az account set --subscription "<SubscrioptionName>"
+$ az account set --subscription "<SubscrioptionName>"
 
 # Azure リソース　確認
-az resource list --output table
+$ az resource list --output table
+
+# リソースグループ作成
+$ az group create -n <resourceGroupName> -l "japaneast"
+※既存のリソースグループにデプロイする場合は、不要
+
+# デプロイテスト  
+$ az group deployment validate --resource-group <resourceGroupName> --template-file deploy.json --parameters parameters.json
+※必須ではないが、自信がない時はやってみること
+
+# デプロイ  
+$ az group deployment create --resource-group <resourceGroupName> --template-file deploy.json --parameters parameters.json
+
 ```
 
-* コマンド叩く  
-Azure CLI
+
+* デプロイ手順（PowerShell）
 
 ```
-az group deployment create --resource-group <resourceGroupName> --template-file template.json --parameters parameters.json
+# Azure ログイン
+> Login-AzureRmAccount
+
+To sign in, use a web browser to open the page https://aka.ms/devicelogin and enter the code xxxxx to authenticate.
+
+https://aka.ms/devicelogin へアクセスし、xxxxxを入力し、認証する。
+
+# Azure サブスクリプション　確認
+> Get-AzureRmSubscription
+
+#  Azure サブスクリプション アクティベート（切替）
+> Set-AzureRmContext -SubscriptionName "<SubscrioptionName>"
+
+# Azure リソース　確認
+> Get-AzureRmResourceGroup
+
+# リソースグループ作成
+> New-AzureRmResourceGroup -Name <resourceGroupName> -Location "japaneast"
+※既存のリソースグループにデプロイする場合は、不要
+
+# デプロイテスト  
+> Test-AzureRmResourceGroupDeployment -ResourceGroupName <resourceGroupName> -TemplateFile deploy.json -TemplateParameterFile parameters.json
+※必須ではないが、自信がない時はやってみること
+
+# デプロイ  
+> New-AzureRmResourceGroupDeployment -ResourceGroupName <resourceGroupName> -TemplateFile deploy.json -TemplateParameterFile parameters.json
 
 ```
+
+
 
 * FYI  
 [初めての Azure Resource Manager テンプレートを作成およびデプロイする](https://docs.microsoft.com/ja-jp/azure/azure-resource-manager/resource-manager-create-first-template)  
