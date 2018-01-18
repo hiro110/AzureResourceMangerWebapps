@@ -2,44 +2,14 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "sites_arm_template_name": {
-            "value": "hproducts-clitest"
-        },
-        "hostNameBindings_arm_template.azurewebsites.net_name": {
-            "value": "hproducts-clitest.azurewebsites.net_name"
+        "siteName": {
+            "value": "webappshoge"
         },
         "deployLocation":{
             "value": "japaneast"
         },
         "skuName": {
             "value": "S1"
-         },
-        "skuCapacity": {
-            "value": 1
-        },
-        "alertrules_内部エラー_name": {
-            "value": "内部エラー"
-        },
-        "alertrules_平均応答時間_name": {
-            "value": "平均応答時間"
-        },
-        "alertrules_平均メモリ使用量_name": {
-            "value": "平均メモリ使用量"
-        },
-        "serverfarms_arm_template_name": {
-            "value": "hproducts-clitest"
-        },
-        "components_arm_template_name": {
-            "value": "hproducts-clitest"
-        },
-        "alertrules_404_Not_Found_name": {
-            "value": "404 Not Found"
-        },
-        "config_web_name": {
-            "value": "web"
-        },
-        "alertrules_401_Unauthorized_name": {
-            "value": "401 Unauthorized"
-        }
+         }
     }
 }

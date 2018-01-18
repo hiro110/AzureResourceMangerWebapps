@@ -79,7 +79,6 @@ https://aka.ms/devicelogin へアクセスし、xxxxxを入力し、認証する
 
 # デプロイ  
 > New-AzureRmResourceGroupDeployment -ResourceGroupName <resourceGroupName> -TemplateFile deploy.json -TemplateParameterFile parameters.json
-
 ```
 
 
